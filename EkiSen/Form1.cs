@@ -161,12 +161,15 @@ namespace EkiSen
                     //卦名（かめい） 表示
                     DispKamei();
 
-                    //ランダム易数表示
-                    lblEkisu.Text = string.Format("{0}-{1}-{2}", HachiKeValue[(int)JouKake.kake], HachiKeValue[(int)JouKake.jouke], lstKakeMark[0]);
+                    lblEkisu.Text += string.Format("-{0}", lstKakeMark[0]);
 
                     TryNum = 0;
                     lstKakeMark.Clear();
                 }
+                //ランダム易数表示
+                if (TryNum==1) lblEkisu.Text = string.Format("{0}", HachiKeValue[(int)JouKake.kake]);
+                else if(TryNum==2)    lblEkisu.Text += string.Format("-{0}",  HachiKeValue[(int)JouKake.jouke]);
+
 
             }
             else

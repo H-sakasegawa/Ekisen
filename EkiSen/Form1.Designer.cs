@@ -106,7 +106,7 @@ namespace EkiSen
             // 
             // button1
             // 
-            this.button1.Font = new System.Drawing.Font("MS UI Gothic", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.button1.Font = new System.Drawing.Font("MS UI Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.button1.Location = new System.Drawing.Point(12, 327);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(127, 32);
@@ -117,7 +117,7 @@ namespace EkiSen
             // 
             // button2
             // 
-            this.button2.Font = new System.Drawing.Font("MS UI Gothic", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.button2.Font = new System.Drawing.Font("MS UI Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.button2.Location = new System.Drawing.Point(13, 363);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(107, 32);
@@ -129,10 +129,10 @@ namespace EkiSen
             // lblTestCnt
             // 
             this.lblTestCnt.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.lblTestCnt.Font = new System.Drawing.Font("MS UI Gothic", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.lblTestCnt.Location = new System.Drawing.Point(126, 372);
+            this.lblTestCnt.Font = new System.Drawing.Font("MS UI Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.lblTestCnt.Location = new System.Drawing.Point(126, 363);
             this.lblTestCnt.Name = "lblTestCnt";
-            this.lblTestCnt.Size = new System.Drawing.Size(84, 19);
+            this.lblTestCnt.Size = new System.Drawing.Size(84, 28);
             this.lblTestCnt.TabIndex = 6;
             // 
             // label2
@@ -396,10 +396,10 @@ namespace EkiSen
             // lblEkisu
             // 
             this.lblEkisu.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.lblEkisu.Font = new System.Drawing.Font("MS UI Gothic", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.lblEkisu.Font = new System.Drawing.Font("MS UI Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.lblEkisu.Location = new System.Drawing.Point(188, 332);
             this.lblEkisu.Name = "lblEkisu";
-            this.lblEkisu.Size = new System.Drawing.Size(76, 25);
+            this.lblEkisu.Size = new System.Drawing.Size(76, 27);
             this.lblEkisu.TabIndex = 25;
             // 
             // rad3Pen
