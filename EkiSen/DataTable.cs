@@ -92,8 +92,9 @@ namespace EkiSen
             {
                 return dicHachiKe.First(x => x.Value.ekiSu == ekisu).Value;
             }
+          
 
-  
+
         }
         public HachiKeTbl hachiKeTbl = new HachiKeTbl();
 

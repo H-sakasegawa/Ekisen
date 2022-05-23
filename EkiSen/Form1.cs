@@ -151,10 +151,13 @@ namespace EkiSen
 
         private void button1_Click(object sender, EventArgs e)
         {
+            lstKakeMark.Clear();
+            lblTestCnt.Text = "";
+
             if (rad3PenZei.Checked)
             {
                 //３編筮
-                SanPenZei();
+                int randValue = SanPenZei();
                 if (TryNum >= 3)
                 {
                     DispSenboku();
@@ -166,10 +169,19 @@ namespace EkiSen
                     TryNum = 0;
                     lstKakeMark.Clear();
                 }
-                //ランダム易数表示
-                if (TryNum==1) lblEkisu.Text = string.Format("{0}", HachiKeValue[(int)JouKake.kake]);
-                else if(TryNum==2)    lblEkisu.Text += string.Format("-{0}",  HachiKeValue[(int)JouKake.jouke]);
-
+                else
+                {
+                    ClearDisp();
+                    //ランダム易数表示
+                    if (TryNum == 1)
+                    {
+                        lblEkisu.Text = string.Format("{0}", randValue);
+                    }
+                    else
+                    {
+                        if (TryNum == 2) lblEkisu.Text += string.Format("-{0}", randValue);
+                    }
+                }
 
             }
             else
@@ -189,7 +201,7 @@ namespace EkiSen
         /// <summary>
         /// ３編筮
         /// </summary>
-        private void SanPenZei()
+        private int SanPenZei()
         {
             int Sheed = (int)DateTime.Now.Ticks;
             Random rand = new Random(Sheed);
@@ -200,10 +212,10 @@ namespace EkiSen
                 ClearPanel(panel3);
 
             }
-
+            int ekiSu = 0;
             if (TryNum < 2)
             {
-                int ekiSu = rand.Next(1, 8);
+                ekiSu = rand.Next(1, 9); //1以上、9未満
 
                 HachiKeValue[TryNum] = tblMng.hachiKeTbl.GetHachiKeByEkisu(ekiSu).hachiKe;
                 //裏卦(全ビット反転）
@@ -211,10 +223,14 @@ namespace EkiSen
             }
             else
             {
-                lstKakeMark.Add( rand.Next(1, 6));
+                ekiSu = rand.Next(1, 7);
+                lstKakeMark.Add(ekiSu); //1以上、7未満
             }
 
             TryNum++;
+
+            //3回目は易数ではありません。
+            return ekiSu;
         }
         /// <summary>
         /// ６編筮
@@ -229,7 +245,7 @@ namespace EkiSen
             {
                 for (int i = 0; i < 3; i++)
                 {
-                    int ekisu = rand.Next(1, 8);
+                    int ekisu = rand.Next(1, 9); //1以上、9未満
                     var hachiboku = tblMng.hachiKeTbl.GetHachiKeByEkisu(ekisu);
 
                     int bit = (int)hachiboku.inyou << i;
@@ -251,8 +267,27 @@ namespace EkiSen
         {
             TryNum = 0;
             lstTest.Clear();
+            lblTestCnt.Text = "";
+            lblEkisu.Text = "";
+            ClearDisp();
+
+        }
+        private void ClearDisp()
+        {
             ClearPanel(panel2);
             ClearPanel(panel3);
+            lblKamei.Text = "";
+            lblKamei2.Text = "";
+
+            ClearExplanation();
+        }
+
+        private void ClearExplanation()
+        {
+            lblPage.Text = string.Format("0/0");
+            lstBooks.Items.Clear();
+            picExplanation1.Image = null;
+            picExplanation2.Image = null;
         }
 
         private void ClearPanel(Panel panel)
@@ -286,10 +321,8 @@ namespace EkiSen
         }
         private void DispSenboku()
         {
-           var sike =  tblMng.rokujuYonKeTbl.GetRokujuYonSike(HachiKeValue[(int)JouKake.jouke], HachiKeValue[(int)JouKake.kake]);
-            //説明資料
-            LoadExplanation(sike.no);
 
+ 
 
 
             DispSenbokuPanel(panel2, HachiKeValue, lstKakeMark);
@@ -313,13 +346,15 @@ namespace EkiSen
                     HachiKeValueHusiKake[idx] = HachiKeValue[idx] ^ value;
 
                 }
-                DispSenbokuPanel(panel3, HachiKeValueHusiKake, null, false);
+                DispSenbokuPanel(panel3, HachiKeValueHusiKake, null, false);//伏卦
             }
             else if (radUraKake.Checked)
             {
-                DispSenbokuPanel(panel3, HachiKeValueUraKake, null, false);
+                DispSenbokuPanel(panel3, HachiKeValueUraKake, null, false);//裏卦
             }
 
+            //説明資料読み込み
+            LoadExplanation();
             //説明表示
             ShowExplanation();
         }
@@ -415,22 +450,58 @@ namespace EkiSen
 
         }
 
+        //伏卦チェックボックス
         private void radHusiKake_CheckedChanged(object sender, EventArgs e)
         {
+            if (!radHusiKake.Checked) return;
             DispSenbokuPanel(panel3, HachiKeValueHusiKake, null, false);
             //卦名（かめい） 表示
             DispKamei();
+            LoadExplanation();
 
         }
-
+        //裏卦チェック簿kk巣
         private void radUraKake_CheckedChanged(object sender, EventArgs e)
         {
+            if (!radUraKake.Checked) return;
+
             DispSenbokuPanel(panel3, HachiKeValueUraKake, null, false);
             //卦名（かめい） 表示
             DispKamei();
-
+            LoadExplanation();
         }
 
+
+
+        private void LoadExplanation()
+        {
+            RokujuSike sike;
+            int hachike_jouke;
+            int hachike_kake;
+
+            if (radExplanation1.Checked)
+            {
+                hachike_jouke = HachiKeValue[(int)JouKake.jouke];
+                hachike_kake = HachiKeValue[(int)JouKake.kake];
+            }
+            else
+            {
+                if (radHusiKake.Checked)
+                {
+                    hachike_jouke = HachiKeValueHusiKake[(int)JouKake.jouke];
+                    hachike_kake = HachiKeValueHusiKake[(int)JouKake.kake];
+                }
+                else
+                {
+                    hachike_jouke = HachiKeValueUraKake[(int)JouKake.jouke];
+                    hachike_kake = HachiKeValueUraKake[(int)JouKake.kake];
+                }
+            }
+
+            sike = tblMng.rokujuYonKeTbl.GetRokujuYonSike(hachike_jouke, hachike_kake);
+
+            LoadExplanation(sike.no);
+        }
         private void LoadExplanation(int sikeNo)
         {
             string fileName = string.Format(@"Data\64K{0:00}.xlsx", sikeNo);
@@ -458,6 +529,7 @@ namespace EkiSen
             ShowExplanation();
         }
 
+
         private void  ShowExplanation()
         {
             //メイン説明文表示
@@ -472,7 +544,11 @@ namespace EkiSen
         private void ShowMainPage(int pageNo)
         {
             BookInf book = (BookInf)lstBooks.SelectedItem;
-            if (book == null) return;
+            if (book == null)
+            {
+                ClearExplanation();
+                return;
+            }
             curMainData = book.data.dic["メイン"];
             ShowPage(book, curMainData, pageNo, picExplanation1);
         }
@@ -557,6 +633,7 @@ namespace EkiSen
         /// <param name="e"></param>
         private void button2_Click(object sender, EventArgs e)
         {
+            lblEkisu.Text = "";
             if (lstTest.Count==0)
             {
                 //テストデータ作成
@@ -574,6 +651,9 @@ namespace EkiSen
                 }
             }
 
+            //学習用ボタン押下時は、毎回説明を消去
+            ClearExplanation();
+
             int Sheed = (int)DateTime.Now.Ticks;
             Random rand = new Random(Sheed);
 
@@ -584,12 +664,12 @@ namespace EkiSen
 
             HachiKeValue[(int)JouKake.kake] = inf.hachiKeKake.hachiKe;
             HachiKeValue[(int)JouKake.jouke] = inf.hachiKeJouke.hachiKe;
-
+            //伏卦
             HachiKeValueHusiKake[(int)JouKake.kake] = inf.hachiKeHusiKake.hachiKe;
             HachiKeValueHusiKake[(int)JouKake.jouke] = inf.hachiKeHusiJouke.hachiKe;
-
-            HachiKeValueHusiKake[(int)JouKake.kake] = inf.hachiKeUraKake.hachiKe;
-            HachiKeValueHusiKake[(int)JouKake.jouke] = inf.hachiKeUraJouke.hachiKe;
+            //裏卦
+            HachiKeValueUraKake[(int)JouKake.kake] = inf.hachiKeUraKake.hachiKe;
+            HachiKeValueUraKake[(int)JouKake.jouke] = inf.hachiKeUraJouke.hachiKe;
 
             lstKakeMark.Clear();
 
@@ -598,16 +678,40 @@ namespace EkiSen
 
             if (radHusiKake.Checked)
             {
-                DispSenbokuPanel(panel3, HachiKeValueHusiKake, null, false);
-            }else
+                DispSenbokuPanel(panel3, HachiKeValueHusiKake, null, false);//伏卦
+            }
+            else
             {
-                DispSenbokuPanel(panel3, HachiKeValueHusiKake, null, false);
+                DispSenbokuPanel(panel3, HachiKeValueUraKake, null, false);//裏卦
             }
             //卦名（かめい） 表示
             DispKamei();
 
             lblTestCnt.Text = string.Format("{0}/{1}", 384 - lstTest.Count, 384);
+            lblEkisu.Text = string.Format("{0}-{1}-{2}", inf.hachiKeKake.ekiSu, inf.hachiKeJouke.ekiSu, inf.mark);
 
+        }
+
+        private void button8_Click(object sender, EventArgs e)
+        {
+            //説明資料読み込み
+            LoadExplanation();
+            //説明表示
+            ShowExplanation();
+
+        }
+        //説明表示（八卦）
+        private void radExplanation1_CheckedChanged(object sender, EventArgs e)
+        {
+            if (!radExplanation1.Checked) return;
+            button8_Click(null, null);
+        }
+
+        //説明表示（伏卦、裏卦）
+        private void radExplanation2_CheckedChanged(object sender, EventArgs e)
+        {
+            if (!radExplanation2.Checked) return;
+            button8_Click(null, null);
         }
     }
 }
