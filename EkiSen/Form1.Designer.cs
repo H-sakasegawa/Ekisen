@@ -64,6 +64,8 @@ namespace EkiSen
             this.button8 = new System.Windows.Forms.Button();
             this.radExplanation1 = new System.Windows.Forms.RadioButton();
             this.radExplanation2 = new System.Windows.Forms.RadioButton();
+            this.txtExplanation1 = new System.Windows.Forms.TextBox();
+            this.txtExplanation2 = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.picExplanation1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picExplanation2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -154,15 +156,18 @@ namespace EkiSen
             this.splitContainer1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.splitContainer1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.splitContainer1.Location = new System.Drawing.Point(434, 7);
             this.splitContainer1.Name = "splitContainer1";
             // 
             // splitContainer1.Panel1
             // 
+            this.splitContainer1.Panel1.Controls.Add(this.txtExplanation1);
             this.splitContainer1.Panel1.Controls.Add(this.picExplanation1);
             // 
             // splitContainer1.Panel2
             // 
+            this.splitContainer1.Panel2.Controls.Add(this.txtExplanation2);
             this.splitContainer1.Panel2.Controls.Add(this.picExplanation2);
             this.splitContainer1.Size = new System.Drawing.Size(460, 424);
             this.splitContainer1.SplitterDistance = 225;
@@ -449,6 +454,24 @@ namespace EkiSen
             this.radExplanation2.UseVisualStyleBackColor = true;
             this.radExplanation2.CheckedChanged += new System.EventHandler(this.radExplanation2_CheckedChanged);
             // 
+            // txtExplanation1
+            // 
+            this.txtExplanation1.Location = new System.Drawing.Point(46, 308);
+            this.txtExplanation1.Multiline = true;
+            this.txtExplanation1.Name = "txtExplanation1";
+            this.txtExplanation1.ReadOnly = true;
+            this.txtExplanation1.Size = new System.Drawing.Size(141, 57);
+            this.txtExplanation1.TabIndex = 3;
+            // 
+            // txtExplanation2
+            // 
+            this.txtExplanation2.Location = new System.Drawing.Point(45, 308);
+            this.txtExplanation2.Multiline = true;
+            this.txtExplanation2.Name = "txtExplanation2";
+            this.txtExplanation2.ReadOnly = true;
+            this.txtExplanation2.Size = new System.Drawing.Size(141, 57);
+            this.txtExplanation2.TabIndex = 4;
+            // 
             // rad3Pen
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -476,7 +499,9 @@ namespace EkiSen
             ((System.ComponentModel.ISupportInitialize)(this.picExplanation1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.picExplanation2)).EndInit();
             this.splitContainer1.Panel1.ResumeLayout(false);
+            this.splitContainer1.Panel1.PerformLayout();
             this.splitContainer1.Panel2.ResumeLayout(false);
+            this.splitContainer1.Panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
@@ -529,6 +554,8 @@ namespace EkiSen
         private System.Windows.Forms.Button button8;
         private System.Windows.Forms.RadioButton radExplanation2;
         private System.Windows.Forms.RadioButton radExplanation1;
+        private System.Windows.Forms.TextBox txtExplanation1;
+        private System.Windows.Forms.TextBox txtExplanation2;
     }
 }
 

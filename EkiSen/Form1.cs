@@ -100,6 +100,7 @@ namespace EkiSen
         int curPageNo = 0;
         Image curImage = null;
         ExplanationReader.ExplanationData curMainData = null;
+        bool bDispExplanation = true;
 
         public rad3Pen()
         {
@@ -110,6 +111,14 @@ namespace EkiSen
         {
             picExplanation1.Dock = DockStyle.Fill;
             picExplanation2.Dock = DockStyle.Fill;
+            txtExplanation1.Dock = DockStyle.Fill;
+            txtExplanation2.Dock = DockStyle.Fill;
+
+            picExplanation1.BorderStyle = BorderStyle.None;
+            picExplanation2.BorderStyle = BorderStyle.None;
+            txtExplanation1.BorderStyle = BorderStyle.None;
+            txtExplanation2.BorderStyle = BorderStyle.None;
+
 
             //拡大縮小で縦横比率を維持
             picExplanation1.SizeMode = PictureBoxSizeMode.Zoom;
@@ -168,6 +177,7 @@ namespace EkiSen
 
                     TryNum = 0;
                     lstKakeMark.Clear();
+                    bDispExplanation = true;
                 }
                 else
                 {
@@ -288,6 +298,8 @@ namespace EkiSen
             lstBooks.Items.Clear();
             picExplanation1.Image = null;
             picExplanation2.Image = null;
+            txtExplanation1.Text = "";
+            txtExplanation2.Text = "";
         }
 
         private void ClearPanel(Panel panel)
@@ -504,6 +516,7 @@ namespace EkiSen
         }
         private void LoadExplanation(int sikeNo)
         {
+            sikeNo = 6;
             string fileName = string.Format(@"Data\64K{0:00}.xlsx", sikeNo);
             //Exeファイルパス
             string exePath = Path.GetDirectoryName(Application.ExecutablePath);
@@ -549,8 +562,18 @@ namespace EkiSen
                 ClearExplanation();
                 return;
             }
+            picExplanation1.Visible = false;
+            txtExplanation1.Visible = false;
+
             curMainData = book.data.dic["メイン"];
-            ShowPage(book, curMainData, pageNo, picExplanation1);
+            if (curMainData.pictureInfos.Count > 0)
+            {
+                ShowPage(book, curMainData, pageNo, picExplanation1);
+            }
+            else
+            {
+                ShowPage(book, curMainData, pageNo, txtExplanation1);
+            }
         }
 
         private void ShowSubPage()
@@ -561,8 +584,27 @@ namespace EkiSen
             int value = lstKakeMark[0];
             if (value > 0)
             {
-                var data = book.data.dic[value.ToString()];
-                ShowPage(book, data, 1, picExplanation2);
+                picExplanation2.Visible = false;
+                txtExplanation2.Visible = false;
+
+                if (book.data.dic.ContainsKey(value.ToString()))
+                {
+                    var data = book.data.dic[value.ToString()];
+                    if (data.pictureInfos.Count > 0)
+                    {
+                        ShowPage(book, data, 1, picExplanation2);
+                    }
+                    else
+                    {
+                        ShowPage(book, data, 1, txtExplanation2);
+                    }
+
+                    
+                }else
+                {
+                    picExplanation2.Image = null;
+                    txtExplanation2.Text = "";
+                }
             }
         }
 
@@ -571,6 +613,7 @@ namespace EkiSen
             pic.Image = null;
             if (curMainData == null) return;
 
+            pic.Visible = true;
 
             if (pageNo > curData.pictureInfos.Count) return;
             if (curData.pictureInfos[pageNo - 1] == null) return;
@@ -590,6 +633,31 @@ namespace EkiSen
                 lblPage.Text = string.Format("{0}/{1}", 0, 0);
             }
         }
+
+        private void ShowPage(BookInf book, ExplanationReader.ExplanationData curData, int pageNo, TextBox txtBox)
+        {
+            txtBox.Text = "";
+            if (curMainData == null) return;
+
+            txtBox.Visible = true;
+
+            if (pageNo > curData.textInfos.Count) return;
+            if (curData.textInfos[pageNo - 1] == null) return;
+            curPageNo = pageNo;
+
+            if (curPageNo >= 0)
+            {
+                txtBox.Text = curData.textInfos[pageNo-1];
+
+                lblPage.Text = string.Format("{0}/{1}", curPageNo, curData.textInfos.Count);
+            }
+            else
+            {
+                txtBox.Text = "";
+                lblPage.Text = string.Format("{0}/{1}", 0, 0);
+            }
+        }
+
         private void PageDown()
         {
             if (curMainData == null || curPageNo <= 1) return;
@@ -598,7 +666,16 @@ namespace EkiSen
         }
         private void PageUp()
         {
-            if (curMainData == null || curPageNo >= curMainData.pictureInfos.Count) return;
+            if (curMainData == null) return;
+
+            if (curMainData.pictureInfos.Count > 0)
+            {
+                if (curPageNo >= curMainData.pictureInfos.Count) return;
+            }
+            else
+            {
+                if (curPageNo >= curMainData.textInfos.Count) return;
+            }
             ShowMainPage(curPageNo + 1);
         }
 
@@ -653,6 +730,7 @@ namespace EkiSen
 
             //学習用ボタン押下時は、毎回説明を消去
             ClearExplanation();
+            bDispExplanation = false;
 
             int Sheed = (int)DateTime.Now.Ticks;
             Random rand = new Random(Sheed);
@@ -694,6 +772,8 @@ namespace EkiSen
 
         private void button8_Click(object sender, EventArgs e)
         {
+            bDispExplanation = true;
+
             //説明資料読み込み
             LoadExplanation();
             //説明表示
@@ -704,6 +784,7 @@ namespace EkiSen
         private void radExplanation1_CheckedChanged(object sender, EventArgs e)
         {
             if (!radExplanation1.Checked) return;
+            if (!bDispExplanation) return;
             button8_Click(null, null);
         }
 
@@ -711,6 +792,7 @@ namespace EkiSen
         private void radExplanation2_CheckedChanged(object sender, EventArgs e)
         {
             if (!radExplanation2.Checked) return;
+            if (!bDispExplanation) return;
             button8_Click(null, null);
         }
     }

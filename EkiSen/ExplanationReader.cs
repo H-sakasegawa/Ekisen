@@ -19,9 +19,20 @@ class ExplanationReader
             id = _id;
             pictureInfos.Add(_pictureInfo);
         }
+        public ExplanationData(string _id, string textInfo)
+        {
+            id = _id;
+            textInfos.Add(textInfo);
+        }
+
+
         public void AddPictureInfo(ExcelReader.PictureInfo _pictureInfo)
         {
             pictureInfos.Add(_pictureInfo);
+        }
+        public void AddPictureInfo(string textInfo)
+        {
+            textInfos.Add(textInfo);
         }
         public int GetMaxWidth()
         {
@@ -42,8 +53,13 @@ class ExplanationReader
             return maxH;
 
         }
+        public bool IsExistData()
+        {
+            return pictureInfos.Count + textInfos.Count > 0 ? true : false;
+        }
         public string id;
         public List<ExcelReader.PictureInfo> pictureInfos = new List<ExcelReader.PictureInfo>();
+        public List<string> textInfos = new List<string>();
     }
 
     public class ExplanationSheet
@@ -87,8 +103,11 @@ class ExplanationReader
         return 0;
     }
     private int ReadSheet(ExplanationSheet expSheet, XSSFSheet sheet)
-    { 
+    {
 
+        //----------------------------------------
+        // 画像情報を収集
+        //----------------------------------------
         List<ExcelReader.PictureInfo> lstCellInfos = ExcelReader.GetPicture(sheet);
 
         int iRow = 0;
@@ -102,8 +121,18 @@ class ExplanationReader
             var sKeyAry = sKeyItem.Split('\n');
             //string Explanation = ExcelReader.CellValue(sheet, iRow, 1);
 
-            List<ExcelReader.PictureInfo> pictureInfos = lstCellInfos.FindAll(x => x.row == iRow + 1)
-                                                                     .OrderBy(x => x.col).ToList();
+            //iRow行の2列目のテキストの説明データがあるかをチェック
+            string sTextExplanation = ExcelReader.CellValue(sheet, iRow, 2);
+
+            List<ExcelReader.PictureInfo> pictureInfos = null;
+            if (string.IsNullOrEmpty(sTextExplanation))
+            {
+               pictureInfos = lstCellInfos.FindAll(x => x.row == iRow + 1)
+                                                 .OrderBy(x => x.col).ToList();
+            }
+            //以下のforeachは、1列のタイトルに改行で複数のキー文字がある場合のためのものです。
+            //改行による複数キーがなければ一回ループです。
+
             foreach (var sKey in sKeyAry)
             {
                 if (pictureInfos != null && pictureInfos.Count > 0)
@@ -122,7 +151,24 @@ class ExplanationReader
                 }
                 else
                 {
-                    expSheet.dic.Add(sKey, new ExplanationData(sKey, null));
+                    int iCol = 1;
+                    while (true)
+                    {
+                        sTextExplanation = ExcelReader.CellValue(sheet, iRow, iCol++);
+                        if( string.IsNullOrEmpty(sTextExplanation))
+                        {
+                            //検索終了
+                            break;
+                        }
+                        if (expSheet.dic.ContainsKey(sKey))
+                        {
+                            expSheet.dic[sKey].AddPictureInfo(sTextExplanation);
+                        }
+                        else
+                        {
+                            expSheet.dic.Add(sKey, new ExplanationData(sKey, sTextExplanation));
+                        }
+                    }
                 }
             }
             iRow++;
