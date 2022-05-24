@@ -516,7 +516,6 @@ namespace EkiSen
         }
         private void LoadExplanation(int sikeNo)
         {
-            sikeNo = 6;
             string fileName = string.Format(@"Data\64K{0:00}.xlsx", sikeNo);
             //Exeファイルパス
             string exePath = Path.GetDirectoryName(Application.ExecutablePath);
