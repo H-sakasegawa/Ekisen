@@ -18,11 +18,13 @@ class ExplanationReader
         {
             id = _id;
             pictureInfos.Add(_pictureInfo);
+            curShowPageNo = 0;
         }
         public ExplanationData(string _id, string textInfo)
         {
             id = _id;
             textInfos.Add(textInfo);
+            curShowPageNo = 0;
         }
 
 
@@ -60,6 +62,8 @@ class ExplanationReader
         public string id;
         public List<ExcelReader.PictureInfo> pictureInfos = new List<ExcelReader.PictureInfo>();
         public List<string> textInfos = new List<string>();
+
+        public int curShowPageNo;
     }
 
     public class ExplanationSheet

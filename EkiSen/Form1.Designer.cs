@@ -38,9 +38,15 @@ namespace EkiSen
             this.lblTestCnt = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.txtExplanation1 = new System.Windows.Forms.TextBox();
+            this.txtExplanation2 = new System.Windows.Forms.TextBox();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.radExplanation2 = new System.Windows.Forms.RadioButton();
+            this.radExplanation1 = new System.Windows.Forms.RadioButton();
             this.panel3 = new System.Windows.Forms.Panel();
+            this.lblKamei2 = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.lblKamei = new System.Windows.Forms.Label();
             this.picSenbokuYou = new System.Windows.Forms.PictureBox();
             this.picSenbokuIn = new System.Windows.Forms.PictureBox();
             this.button3 = new System.Windows.Forms.Button();
@@ -57,15 +63,15 @@ namespace EkiSen
             this.button6 = new System.Windows.Forms.Button();
             this.button7 = new System.Windows.Forms.Button();
             this.lblPage = new System.Windows.Forms.Label();
-            this.lblKamei = new System.Windows.Forms.Label();
-            this.lblKamei2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.lblEkisu = new System.Windows.Forms.Label();
             this.button8 = new System.Windows.Forms.Button();
-            this.radExplanation1 = new System.Windows.Forms.RadioButton();
-            this.radExplanation2 = new System.Windows.Forms.RadioButton();
-            this.txtExplanation1 = new System.Windows.Forms.TextBox();
-            this.txtExplanation2 = new System.Windows.Forms.TextBox();
+            this.panel5 = new System.Windows.Forms.Panel();
+            this.button9 = new System.Windows.Forms.Button();
+            this.button10 = new System.Windows.Forms.Button();
+            this.button11 = new System.Windows.Forms.Button();
+            this.button12 = new System.Windows.Forms.Button();
+            this.lblPageSub = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.picExplanation1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picExplanation2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -79,6 +85,7 @@ namespace EkiSen
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.panel4.SuspendLayout();
+            this.panel5.SuspendLayout();
             this.SuspendLayout();
             // 
             // lstBooks
@@ -173,6 +180,24 @@ namespace EkiSen
             this.splitContainer1.SplitterDistance = 225;
             this.splitContainer1.TabIndex = 11;
             // 
+            // txtExplanation1
+            // 
+            this.txtExplanation1.Location = new System.Drawing.Point(46, 308);
+            this.txtExplanation1.Multiline = true;
+            this.txtExplanation1.Name = "txtExplanation1";
+            this.txtExplanation1.ReadOnly = true;
+            this.txtExplanation1.Size = new System.Drawing.Size(141, 57);
+            this.txtExplanation1.TabIndex = 3;
+            // 
+            // txtExplanation2
+            // 
+            this.txtExplanation2.Location = new System.Drawing.Point(45, 308);
+            this.txtExplanation2.Multiline = true;
+            this.txtExplanation2.Name = "txtExplanation2";
+            this.txtExplanation2.ReadOnly = true;
+            this.txtExplanation2.Size = new System.Drawing.Size(141, 57);
+            this.txtExplanation2.TabIndex = 4;
+            // 
             // panel1
             // 
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
@@ -188,6 +213,30 @@ namespace EkiSen
             this.panel1.Size = new System.Drawing.Size(306, 297);
             this.panel1.TabIndex = 12;
             // 
+            // radExplanation2
+            // 
+            this.radExplanation2.AutoSize = true;
+            this.radExplanation2.Location = new System.Drawing.Point(163, 3);
+            this.radExplanation2.Name = "radExplanation2";
+            this.radExplanation2.Size = new System.Drawing.Size(71, 16);
+            this.radExplanation2.TabIndex = 3;
+            this.radExplanation2.Text = "説明表示";
+            this.radExplanation2.UseVisualStyleBackColor = true;
+            this.radExplanation2.CheckedChanged += new System.EventHandler(this.radExplanation2_CheckedChanged);
+            // 
+            // radExplanation1
+            // 
+            this.radExplanation1.AutoSize = true;
+            this.radExplanation1.Checked = true;
+            this.radExplanation1.Location = new System.Drawing.Point(11, 3);
+            this.radExplanation1.Name = "radExplanation1";
+            this.radExplanation1.Size = new System.Drawing.Size(71, 16);
+            this.radExplanation1.TabIndex = 2;
+            this.radExplanation1.TabStop = true;
+            this.radExplanation1.Text = "説明表示";
+            this.radExplanation1.UseVisualStyleBackColor = true;
+            this.radExplanation1.CheckedChanged += new System.EventHandler(this.radExplanation1_CheckedChanged);
+            // 
             // panel3
             // 
             this.panel3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
@@ -196,6 +245,15 @@ namespace EkiSen
             this.panel3.Size = new System.Drawing.Size(147, 240);
             this.panel3.TabIndex = 1;
             // 
+            // lblKamei2
+            // 
+            this.lblKamei2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lblKamei2.Font = new System.Drawing.Font("MS UI Gothic", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.lblKamei2.Location = new System.Drawing.Point(154, 267);
+            this.lblKamei2.Name = "lblKamei2";
+            this.lblKamei2.Size = new System.Drawing.Size(115, 20);
+            this.lblKamei2.TabIndex = 23;
+            // 
             // panel2
             // 
             this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
@@ -203,6 +261,15 @@ namespace EkiSen
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(143, 240);
             this.panel2.TabIndex = 0;
+            // 
+            // lblKamei
+            // 
+            this.lblKamei.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lblKamei.Font = new System.Drawing.Font("MS UI Gothic", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.lblKamei.Location = new System.Drawing.Point(45, 267);
+            this.lblKamei.Name = "lblKamei";
+            this.lblKamei.Size = new System.Drawing.Size(103, 20);
+            this.lblKamei.TabIndex = 10;
             // 
             // picSenbokuYou
             // 
@@ -381,24 +448,6 @@ namespace EkiSen
             this.lblPage.Text = "nn/nn";
             this.lblPage.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // lblKamei
-            // 
-            this.lblKamei.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.lblKamei.Font = new System.Drawing.Font("MS UI Gothic", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.lblKamei.Location = new System.Drawing.Point(45, 267);
-            this.lblKamei.Name = "lblKamei";
-            this.lblKamei.Size = new System.Drawing.Size(103, 20);
-            this.lblKamei.TabIndex = 10;
-            // 
-            // lblKamei2
-            // 
-            this.lblKamei2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.lblKamei2.Font = new System.Drawing.Font("MS UI Gothic", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.lblKamei2.Location = new System.Drawing.Point(154, 267);
-            this.lblKamei2.Name = "lblKamei2";
-            this.lblKamei2.Size = new System.Drawing.Size(115, 20);
-            this.lblKamei2.TabIndex = 23;
-            // 
             // label1
             // 
             this.label1.AutoSize = true;
@@ -430,47 +479,72 @@ namespace EkiSen
             this.button8.UseVisualStyleBackColor = true;
             this.button8.Click += new System.EventHandler(this.button8_Click);
             // 
-            // radExplanation1
+            // panel5
             // 
-            this.radExplanation1.AutoSize = true;
-            this.radExplanation1.Checked = true;
-            this.radExplanation1.Location = new System.Drawing.Point(11, 3);
-            this.radExplanation1.Name = "radExplanation1";
-            this.radExplanation1.Size = new System.Drawing.Size(71, 16);
-            this.radExplanation1.TabIndex = 2;
-            this.radExplanation1.TabStop = true;
-            this.radExplanation1.Text = "説明表示";
-            this.radExplanation1.UseVisualStyleBackColor = true;
-            this.radExplanation1.CheckedChanged += new System.EventHandler(this.radExplanation1_CheckedChanged);
+            this.panel5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.panel5.Controls.Add(this.button9);
+            this.panel5.Controls.Add(this.button10);
+            this.panel5.Controls.Add(this.button11);
+            this.panel5.Controls.Add(this.button12);
+            this.panel5.Controls.Add(this.lblPageSub);
+            this.panel5.Location = new System.Drawing.Point(663, 434);
+            this.panel5.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.panel5.Name = "panel5";
+            this.panel5.Size = new System.Drawing.Size(156, 18);
+            this.panel5.TabIndex = 22;
             // 
-            // radExplanation2
+            // button9
             // 
-            this.radExplanation2.AutoSize = true;
-            this.radExplanation2.Location = new System.Drawing.Point(163, 3);
-            this.radExplanation2.Name = "radExplanation2";
-            this.radExplanation2.Size = new System.Drawing.Size(71, 16);
-            this.radExplanation2.TabIndex = 3;
-            this.radExplanation2.Text = "説明表示";
-            this.radExplanation2.UseVisualStyleBackColor = true;
-            this.radExplanation2.CheckedChanged += new System.EventHandler(this.radExplanation2_CheckedChanged);
+            this.button9.Location = new System.Drawing.Point(0, 0);
+            this.button9.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.button9.Name = "button9";
+            this.button9.Size = new System.Drawing.Size(25, 18);
+            this.button9.TabIndex = 0;
+            this.button9.Text = "|<";
+            this.button9.UseVisualStyleBackColor = true;
+            this.button9.Click += new System.EventHandler(this.button9_Click);
             // 
-            // txtExplanation1
+            // button10
             // 
-            this.txtExplanation1.Location = new System.Drawing.Point(46, 308);
-            this.txtExplanation1.Multiline = true;
-            this.txtExplanation1.Name = "txtExplanation1";
-            this.txtExplanation1.ReadOnly = true;
-            this.txtExplanation1.Size = new System.Drawing.Size(141, 57);
-            this.txtExplanation1.TabIndex = 3;
+            this.button10.Location = new System.Drawing.Point(105, 0);
+            this.button10.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.button10.Name = "button10";
+            this.button10.Size = new System.Drawing.Size(21, 18);
+            this.button10.TabIndex = 2;
+            this.button10.Text = ">";
+            this.button10.UseVisualStyleBackColor = true;
+            this.button10.Click += new System.EventHandler(this.button10_Click);
             // 
-            // txtExplanation2
+            // button11
             // 
-            this.txtExplanation2.Location = new System.Drawing.Point(45, 308);
-            this.txtExplanation2.Multiline = true;
-            this.txtExplanation2.Name = "txtExplanation2";
-            this.txtExplanation2.ReadOnly = true;
-            this.txtExplanation2.Size = new System.Drawing.Size(141, 57);
-            this.txtExplanation2.TabIndex = 4;
+            this.button11.Location = new System.Drawing.Point(131, 0);
+            this.button11.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.button11.Name = "button11";
+            this.button11.Size = new System.Drawing.Size(25, 18);
+            this.button11.TabIndex = 3;
+            this.button11.Text = ">|";
+            this.button11.UseVisualStyleBackColor = true;
+            this.button11.Click += new System.EventHandler(this.button11_Click);
+            // 
+            // button12
+            // 
+            this.button12.Location = new System.Drawing.Point(30, 0);
+            this.button12.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.button12.Name = "button12";
+            this.button12.Size = new System.Drawing.Size(19, 18);
+            this.button12.TabIndex = 1;
+            this.button12.Text = "<";
+            this.button12.UseVisualStyleBackColor = true;
+            this.button12.Click += new System.EventHandler(this.button12_Click);
+            // 
+            // lblPageSub
+            // 
+            this.lblPageSub.Location = new System.Drawing.Point(48, 2);
+            this.lblPageSub.Name = "lblPageSub";
+            this.lblPageSub.Size = new System.Drawing.Size(57, 15);
+            this.lblPageSub.TabIndex = 7;
+            this.lblPageSub.Text = "nn/nn";
+            this.lblPageSub.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // rad3Pen
             // 
@@ -480,6 +554,7 @@ namespace EkiSen
             this.Controls.Add(this.button8);
             this.Controls.Add(this.lblEkisu);
             this.Controls.Add(this.label1);
+            this.Controls.Add(this.panel5);
             this.Controls.Add(this.panel4);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
@@ -514,6 +589,7 @@ namespace EkiSen
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             this.panel4.ResumeLayout(false);
+            this.panel5.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -556,6 +632,12 @@ namespace EkiSen
         private System.Windows.Forms.RadioButton radExplanation1;
         private System.Windows.Forms.TextBox txtExplanation1;
         private System.Windows.Forms.TextBox txtExplanation2;
+        private System.Windows.Forms.Panel panel5;
+        private System.Windows.Forms.Button button9;
+        private System.Windows.Forms.Button button10;
+        private System.Windows.Forms.Button button11;
+        private System.Windows.Forms.Button button12;
+        private System.Windows.Forms.Label lblPageSub;
     }
 }
 

@@ -248,6 +248,10 @@ public class ExcelReader
                         cellInfo.width = Math.Abs(pic.ClientAnchor.Dx1 - pic.ClientAnchor.Dx2) / 9525;
                         cellInfo.height = Math.Abs(pic.ClientAnchor.Dy1 - pic.ClientAnchor.Dy2) / 9525;
                         lst.Add(cellInfo);
+                    }else if( shape.GetType()== typeof(XSSFShapeGroup))
+                    {
+                        MessageBox.Show(string.Format("グループ化された画像はサポートしていません。\n{0} シート", sheet.SheetName));
+
                     }
                 }
             }

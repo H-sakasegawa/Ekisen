@@ -97,9 +97,9 @@ namespace EkiSen
         List<int> lstKakeMark = new List<int>();
         List<TestInf> lstTest= new List<TestInf>();
 
-        int curPageNo = 0;
         Image curImage = null;
         ExplanationReader.ExplanationData curMainData = null;
+        ExplanationReader.ExplanationData curSubData = null;
         bool bDispExplanation = true;
 
         public rad3Pen()
@@ -516,6 +516,7 @@ namespace EkiSen
         }
         private void LoadExplanation(int sikeNo)
         {
+     //★★       sikeNo = 1;
             string fileName = string.Format(@"Data\64K{0:00}.xlsx", sikeNo);
             //Exeファイルパス
             string exePath = Path.GetDirectoryName(Application.ExecutablePath);
@@ -548,7 +549,7 @@ namespace EkiSen
             ShowMainPage(1);
 
             //爻辞の説明
-            ShowSubPage();
+            ShowSubPage(1);
         }
 
 
@@ -567,15 +568,15 @@ namespace EkiSen
             curMainData = book.data.dic["メイン"];
             if (curMainData.pictureInfos.Count > 0)
             {
-                ShowPage(book, curMainData, pageNo, picExplanation1);
+                ShowPage( curMainData, pageNo, picExplanation1, lblPage);
             }
             else
             {
-                ShowPage(book, curMainData, pageNo, txtExplanation1);
+                ShowPage( curMainData, pageNo, txtExplanation1, lblPage);
             }
         }
 
-        private void ShowSubPage()
+        private void ShowSubPage(int pageNo)
         {
             BookInf book = (BookInf)lstBooks.SelectedItem;
             if (book == null) return;
@@ -588,17 +589,15 @@ namespace EkiSen
 
                 if (book.data.dic.ContainsKey(value.ToString()))
                 {
-                    var data = book.data.dic[value.ToString()];
-                    if (data.pictureInfos.Count > 0)
+                    curSubData = book.data.dic[value.ToString()];
+                    if (curSubData.pictureInfos.Count > 0)
                     {
-                        ShowPage(book, data, 1, picExplanation2);
+                        ShowPage(curSubData, pageNo, picExplanation2, lblPageSub);
                     }
                     else
                     {
-                        ShowPage(book, data, 1, txtExplanation2);
-                    }
-
-                    
+                        ShowPage(curSubData, pageNo, txtExplanation2, lblPageSub);
+                    }                    
                 }else
                 {
                     picExplanation2.Image = null;
@@ -607,7 +606,7 @@ namespace EkiSen
             }
         }
 
-        private void ShowPage(BookInf book, ExplanationReader.ExplanationData curData, int pageNo, PictureBox pic)
+        private void ShowPage(ExplanationReader.ExplanationData curData, int pageNo, PictureBox pic, Label lbl)
         {
             pic.Image = null;
             if (curMainData == null) return;
@@ -616,24 +615,24 @@ namespace EkiSen
 
             if (pageNo > curData.pictureInfos.Count) return;
             if (curData.pictureInfos[pageNo - 1] == null) return;
-            curPageNo = pageNo;
+            curData.curShowPageNo = pageNo;
 
-            if (curPageNo >= 0)
+            if (curData.curShowPageNo >= 0)
             {
                 ImageConverter imgconv = new ImageConverter();
                 curImage = (Image)imgconv.ConvertFrom(curData.pictureInfos[pageNo - 1].pictureData.Data);
                 pic.Image = curImage;
 
-                lblPage.Text = string.Format("{0}/{1}", curPageNo, curData.pictureInfos.Count);
+                lbl.Text = string.Format("{0}/{1}", curData.curShowPageNo, curData.pictureInfos.Count);
             }
             else
             {
                 pic.Image = null;
-                lblPage.Text = string.Format("{0}/{1}", 0, 0);
+                lbl.Text = string.Format("{0}/{1}", 0, 0);
             }
         }
 
-        private void ShowPage(BookInf book, ExplanationReader.ExplanationData curData, int pageNo, TextBox txtBox)
+        private void ShowPage( ExplanationReader.ExplanationData curData, int pageNo, TextBox txtBox, Label lbl)
         {
             txtBox.Text = "";
             if (curMainData == null) return;
@@ -642,65 +641,94 @@ namespace EkiSen
 
             if (pageNo > curData.textInfos.Count) return;
             if (curData.textInfos[pageNo - 1] == null) return;
-            curPageNo = pageNo;
+            curData.curShowPageNo = pageNo;
 
-            if (curPageNo >= 0)
+            if (curData.curShowPageNo >= 0)
             {
                 txtBox.Text = curData.textInfos[pageNo-1];
 
-                lblPage.Text = string.Format("{0}/{1}", curPageNo, curData.textInfos.Count);
+                lbl.Text = string.Format("{0}/{1}", curData.curShowPageNo, curData.textInfos.Count);
             }
             else
             {
                 txtBox.Text = "";
-                lblPage.Text = string.Format("{0}/{1}", 0, 0);
+                lbl.Text = string.Format("{0}/{1}", 0, 0);
             }
         }
 
-        private void PageDown()
+        private void PageDown(ExplanationReader.ExplanationData data, bool bMain=true)
         {
-            if (curMainData == null || curPageNo <= 1) return;
+            if (data == null || data.curShowPageNo <= 1) return;
 
-            ShowMainPage(curPageNo - 1);
+            if(bMain)
+                ShowMainPage(data.curShowPageNo - 1);
+            else
+                ShowSubPage(data.curShowPageNo - 1);
         }
-        private void PageUp()
+        private void PageUp(ExplanationReader.ExplanationData data, bool bMain = true)
         {
-            if (curMainData == null) return;
+            if (data == null) return;
 
-            if (curMainData.pictureInfos.Count > 0)
+            if (data.pictureInfos.Count > 0)
             {
-                if (curPageNo >= curMainData.pictureInfos.Count) return;
+                if (data.curShowPageNo >= data.pictureInfos.Count) return;
             }
             else
             {
-                if (curPageNo >= curMainData.textInfos.Count) return;
+                if (data.curShowPageNo >= data.textInfos.Count) return;
             }
-            ShowMainPage(curPageNo + 1);
+            if (bMain)
+                ShowMainPage(data.curShowPageNo + 1);
+            else
+                ShowSubPage(data.curShowPageNo + 1);
         }
 
+        //------------------------------------------
+        // メイン説明蘭
+        //------------------------------------------
         // "<"ボタン
         private void button7_Click(object sender, EventArgs e)
         {
-            PageDown();
+            PageDown(curMainData);
         }
-
         // ">"ボタン
         private void button5_Click(object sender, EventArgs e)
         {
-            PageUp();
+            PageUp(curMainData);
         }
-
         // "|<"ボタン
         private void button4_Click(object sender, EventArgs e)
         {
             ShowMainPage(1);
         }
-
         // ">|"ボタン
         private void button6_Click(object sender, EventArgs e)
         {
             ShowMainPage(curMainData.pictureInfos.Count);
+        }
 
+        //------------------------------------------
+        // メイン説明蘭
+        //------------------------------------------
+        // "<"ボタン
+        private void button12_Click(object sender, EventArgs e)
+        {
+            PageDown(curSubData, false);
+        }
+        // ">"ボタン
+        private void button10_Click(object sender, EventArgs e)
+        {
+            PageUp(curSubData, false);
+        }
+        // "|<"ボタン
+        private void button9_Click(object sender, EventArgs e)
+        {
+            ShowSubPage(1);
+        }
+        // ">|"ボタン
+        private void button11_Click(object sender, EventArgs e)
+        {
+            ShowSubPage(curSubData.pictureInfos.Count);
         }
         /// <summary>
         /// 学習用
@@ -794,5 +822,7 @@ namespace EkiSen
             if (!bDispExplanation) return;
             button8_Click(null, null);
         }
+
+   
     }
 }
